@@ -58,22 +58,7 @@ pool.connect((err) => {
 app.use(cors());
 app.use(express.json());
 
-// Middleware d'authentification
-const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith("Bearer ")) {
-    const token = authHeader.substring(7);
-    // Accepte n'importe quel token de plus de 5 caractères pour le test
-    if (token.length > 5) {
-      return next();
-    }
-  }
-  console.warn("Tentative d'accès non autorisée");
-  res.status(401).json({ error: "Non autorisé" });
-};
-
-// Application du middleware d'authentification sur toutes les routes /v1
-app.use("/v1", authMiddleware);
+// Middleware d'authentification supprimé pour autoriser les requêtes sans Bearer token
 
 // Routes
 app.get("/v1/ping", (req, res) => {
