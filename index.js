@@ -22,6 +22,11 @@ const pool = new Pool({
   },
 });
 
+// Gérer les erreurs inattendues sur les clients inactifs (évite que le serveur crash)
+pool.on("error", (err, client) => {
+  console.error("Erreur inattendue sur le client PostgreSQL", err);
+});
+
 pool.connect((err) => {
   if (err) {
     console.error("Impossible de se connecter à la base de données:", err);
