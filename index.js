@@ -69,10 +69,6 @@ pool.connect((err) => {
         );
     `;
 
-  pool.query(createSalesQuery, (err) => {
-    if (err) console.error("Impossible de créer la table remote_sales:", err);
-  });
-
   // Création de la table remote_sale_items
   const createSaleItemsQuery = `
         CREATE TABLE IF NOT EXISTS remote_sale_items (
@@ -87,9 +83,15 @@ pool.connect((err) => {
         );
     `;
 
-  pool.query(createSaleItemsQuery, (err) => {
-    if (err)
-      console.error("Impossible de créer la table remote_sale_items:", err);
+  pool.query(createSalesQuery, (err) => {
+    if (err) {
+        console.error("Impossible de créer la table remote_sales:", err);
+    } else {
+        pool.query(createSaleItemsQuery, (err) => {
+            if (err)
+                console.error("Impossible de créer la table remote_sale_items:", err);
+        });
+    }
   });
 
   // Création de la table remote_products
@@ -309,10 +311,7 @@ pool.connect((err) => {
             updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
     `;
-  pool.query(createPurchaseOrdersQuery, (err) => {
-    if (err) console.error(err);
-  });
-
+  
   const createPurchaseOrderItemsQuery = `
         CREATE TABLE IF NOT EXISTS remote_purchase_order_items (
             id SERIAL PRIMARY KEY,
@@ -323,8 +322,15 @@ pool.connect((err) => {
             total DECIMAL(15, 2)
         );
     `;
-  pool.query(createPurchaseOrderItemsQuery, (err) => {
-    if (err) console.error(err);
+
+  pool.query(createPurchaseOrdersQuery, (err) => {
+    if (err) {
+        console.error(err);
+    } else {
+        pool.query(createPurchaseOrderItemsQuery, (err) => {
+            if (err) console.error(err);
+        });
+    }
   });
 
   const createCustomersQuery = `
@@ -390,10 +396,6 @@ pool.connect((err) => {
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
     `;
-  pool.query(createSalesQuery2, (err) => {
-    if (err) console.error(err);
-  });
-
   const createSaleItemsQuery2 = `
         CREATE TABLE IF NOT EXISTS remote_sale_items (
             id SERIAL PRIMARY KEY,
@@ -405,9 +407,6 @@ pool.connect((err) => {
             tax_rate DECIMAL(5, 2)
         );
     `;
-  pool.query(createSaleItemsQuery2, (err) => {
-    if (err) console.error(err);
-  });
 
   const createPaymentsQuery = `
         CREATE TABLE IF NOT EXISTS remote_payments (
@@ -417,8 +416,18 @@ pool.connect((err) => {
             amount DECIMAL(15, 2)
         );
     `;
-  pool.query(createPaymentsQuery, (err) => {
-    if (err) console.error(err);
+
+  pool.query(createSalesQuery2, (err) => {
+    if (err) {
+        console.error(err);
+    } else {
+        pool.query(createSaleItemsQuery2, (err) => {
+            if (err) console.error(err);
+        });
+        pool.query(createPaymentsQuery, (err) => {
+            if (err) console.error(err);
+        });
+    }
   });
 
   const createSaleReturnsQuery = `
