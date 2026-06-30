@@ -85,12 +85,12 @@ pool.connect((err) => {
 
   pool.query(createSalesQuery, (err) => {
     if (err) {
-        console.error("Impossible de créer la table remote_sales:", err);
+      console.error("Impossible de créer la table remote_sales:", err);
     } else {
-        pool.query(createSaleItemsQuery, (err) => {
-            if (err)
-                console.error("Impossible de créer la table remote_sale_items:", err);
-        });
+      pool.query(createSaleItemsQuery, (err) => {
+        if (err)
+          console.error("Impossible de créer la table remote_sale_items:", err);
+      });
     }
   });
 
@@ -311,7 +311,7 @@ pool.connect((err) => {
             updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
     `;
-  
+
   const createPurchaseOrderItemsQuery = `
         CREATE TABLE IF NOT EXISTS remote_purchase_order_items (
             id SERIAL PRIMARY KEY,
@@ -325,11 +325,11 @@ pool.connect((err) => {
 
   pool.query(createPurchaseOrdersQuery, (err) => {
     if (err) {
-        console.error(err);
+      console.error(err);
     } else {
-        pool.query(createPurchaseOrderItemsQuery, (err) => {
-            if (err) console.error(err);
-        });
+      pool.query(createPurchaseOrderItemsQuery, (err) => {
+        if (err) console.error(err);
+      });
     }
   });
 
@@ -419,14 +419,14 @@ pool.connect((err) => {
 
   pool.query(createSalesQuery2, (err) => {
     if (err) {
-        console.error(err);
+      console.error(err);
     } else {
-        pool.query(createSaleItemsQuery2, (err) => {
-            if (err) console.error(err);
-        });
-        pool.query(createPaymentsQuery, (err) => {
-            if (err) console.error(err);
-        });
+      pool.query(createSaleItemsQuery2, (err) => {
+        if (err) console.error(err);
+      });
+      pool.query(createPaymentsQuery, (err) => {
+        if (err) console.error(err);
+      });
     }
   });
 
@@ -941,8 +941,8 @@ app.post("/v1/sync", async (req, res) => {
                 po.order_number,
                 po.supplier_id,
                 po.status,
-                po.order_date,
-                po.expected_date,
+                po.order_date || null,
+                po.expected_date || null,
                 po.total_amount,
               ],
             );
@@ -977,8 +977,8 @@ app.post("/v1/sync", async (req, res) => {
                 item.entity_id,
                 po.supplier_id,
                 po.status,
-                po.order_date,
-                po.expected_date,
+                po.order_date || null,
+                po.expected_date || null,
                 po.total_amount,
               ],
             );
