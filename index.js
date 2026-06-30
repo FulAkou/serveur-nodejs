@@ -282,7 +282,7 @@ app.post("/v1/sync", async (req, res) => {
             ];
             await pool.query(updateProductQuery, productValues);
           } else if (item.action === "DELETE") {
-            const deleteProductQuery = \`UPDATE remote_products SET is_active = false, updated_at = CURRENT_TIMESTAMP WHERE local_id = $1;\`;
+            const deleteProductQuery = `UPDATE remote_products SET is_active = false, updated_at = CURRENT_TIMESTAMP WHERE local_id = $1;`;
             await pool.query(deleteProductQuery, [item.entity_id]);
           }
           break;
