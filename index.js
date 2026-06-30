@@ -375,7 +375,7 @@ pool.connect((err) => {
     if (err) console.error(err);
   });
 
-  const createSalesQuery = `
+  const createSalesQuery2 = `
         CREATE TABLE IF NOT EXISTS remote_sales (
             id SERIAL PRIMARY KEY,
             local_id BIGINT NOT NULL,
@@ -390,11 +390,11 @@ pool.connect((err) => {
             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         );
     `;
-  pool.query(createSalesQuery, (err) => {
+  pool.query(createSalesQuery2, (err) => {
     if (err) console.error(err);
   });
 
-  const createSaleItemsQuery = `
+  const createSaleItemsQuery2 = `
         CREATE TABLE IF NOT EXISTS remote_sale_items (
             id SERIAL PRIMARY KEY,
             remote_sale_id BIGINT REFERENCES remote_sales(id),
@@ -405,7 +405,7 @@ pool.connect((err) => {
             tax_rate DECIMAL(5, 2)
         );
     `;
-  pool.query(createSaleItemsQuery, (err) => {
+  pool.query(createSaleItemsQuery2, (err) => {
     if (err) console.error(err);
   });
 
